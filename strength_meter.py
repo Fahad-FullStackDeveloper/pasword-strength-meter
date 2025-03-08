@@ -4,7 +4,28 @@ import string
 import re
 import sqlite3
 
-# Function to check password strength
+# Function to generate a random password
+def generate_password(length=12, use_upper=True, use_lower=True, use_digits=True, use_special=True):
+    if length < 6:
+        return "❌ Password length should be at least 6 characters!"
+    
+    characters = ""
+    if use_upper:
+        characters += string.ascii_uppercase
+    if use_lower:
+        characters += string.ascii_lowercase
+    if use_digits:
+        characters += string.digits
+    if use_special:
+        characters += "!@#$%^&*(),.?\":{}|<>"
+    
+    if not characters:
+        return "❌ Please select at least one character type!"
+    
+    password = ''.join(random.choice(characters) for _ in range(length))
+    return password
+
+# Function to check password strength and provide feedback
 def check_password_strength(password):
     strength = 0
     feedback = []
@@ -36,26 +57,6 @@ def check_password_strength(password):
     
     return strength, feedback
 
-# Function to generate a random password
-def generate_password(length=12, use_upper=True, use_lower=True, use_digits=True, use_special=True):
-    if length < 6:
-        return "❌ Password length should be at least 6 characters!"
-    
-    characters = ""
-    if use_upper:
-        characters += string.ascii_uppercase
-    if use_lower:
-        characters += string.ascii_lowercase
-    if use_digits:
-        characters += string.digits
-    if use_special:
-        characters += "!@#$%^&*(),.?\":{}|<>"
-    
-    if not characters:
-        return "❌ Please select at least one character type!"
-    
-    password = ''.join(random.choice(characters) for _ in range(length))
-    return password
 
 # Database setup
 def init_db():
@@ -100,7 +101,7 @@ st.sidebar.write("[Vercel](https://vercel.com/yourvercel)")
 st.sidebar.write("[LinkedIn](https://www.linkedin.com/in/fahad-khakwani-3aa655265/)")
 st.sidebar.write("📞 Contact: +1234567890")
 st.sidebar.write("✉ Email: fahad@example.com")
-st.sidebar.write("🛠 Version: 1.0.1")
+st.sidebar.write("🛠 Version: 1.0.2")
 
 # Password Strength Checker
 st.subheader("📏 Check Password Strength")
